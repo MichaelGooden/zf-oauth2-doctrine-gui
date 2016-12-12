@@ -10,6 +10,7 @@ namespace DoctrineGui\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Ramsey\Uuid\Uuid;
 use ZF\OAuth2\Doctrine\Entity\AccessToken;
 use ZF\OAuth2\Doctrine\Entity\Client;
 
@@ -118,7 +119,8 @@ class AccessTokenService
         $token->setUser($params['user_object']);
         $token->setClient($clientObject);
         $token->setExpires($params['exp']);
-        $token->setAccessToken(\MdgUuid\Generator::getV4());
+        $uuid = Uuid::uuid4();
+        $token->setAccessToken($uuid->toString());
 
         foreach ($params['scope'] AS $scope)
         {
@@ -131,4 +133,4 @@ class AccessTokenService
 
     }
 
-} 
+}
